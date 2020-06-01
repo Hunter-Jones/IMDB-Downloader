@@ -2,4 +2,37 @@ body {
   background-color: #212227;
 }
 
+.text-title {
+  color: #f7f7ff;
+  font-size: 34px;
+  text-align: center;
+}
+
+.text-body {
+  color: #bdd4e7;
+  font-size: 21px;
+  text-align: center;
+}
+
+.menu-genre {
+  background-color: #4f6d7a;
+  width: 30%;
+}
+
+.menu-genre-title {
+  padding-top: 5%;
+}
+
+.genre-checkbox {
+  margin-right: 1%;
+  margin-left: 35%;
+}
+
+.genre-checkbox + label {
+  color: #bdd4e7;
+  font-size: 18px;
+  vertical-align: -2px;
+  padding-right: 5%;
+}
+
 /*# sourceMappingURL=index.css.map */

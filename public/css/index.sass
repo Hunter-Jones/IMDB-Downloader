@@ -11,7 +11,7 @@ $secondary-highlight-color: #b0b5b3
 
 $primary-text-color: #f7f7ff  
 $secondary-text-color: #bdd4e7
-// ternary-text-color: #000
+$ternary-text-color: #bdd4e7
 
 // Font Sizes
 $primary-text-size: 34px
@@ -21,4 +21,29 @@ $ternary-text-size:18px
 // Actual CSS
 body 
 	background-color: $primary-background-color
+
+.text-title
+	color: $primary-text-color
+	font-size: $primary-text-size
+	text-align: center
+
+.text-body
+	color: $secondary-text-color
+	font-size: $secondary-text-size
+	text-align: center
+
+.menu-genre
+	background-color:$primary-highlight-color
+	width: 30%
+.menu-genre-title
+	padding-top: 5%
+
+.genre-checkbox
+	margin-right: 1%
+	margin-left:35%
+.genre-checkbox + label
+	color:$ternary-text-color
+	font-size:$ternary-text-size
+	vertical-align: -2px
+	padding-right: 5%
 	
