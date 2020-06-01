@@ -1,7 +1,7 @@
-var checkboxes = document.getElementsByClassName("genre-checkbox");
-console.log(checkboxes);
-for (var i = 0; i < checkboxes.length; ++i)
+var genreCheckboxes = document.getElementsByClassName("genre-checkbox");
+
+// Gives each genre-checkbox the indeterminate state, which is neither on or off
+for (var i = 0; i < genreCheckboxes.length; ++i)
 {
-	checkboxes[i].indeterminate = true;
-	console.log(checkboxes[i]);
+	genreCheckboxes[i].indeterminate = true;
 }

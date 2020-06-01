@@ -12,20 +12,24 @@ app.use(express.static(__dirname + "/public"));
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'ejs');
 
-const url = "https://www.imdb.com/list/ls026579006/?sort=num_votes,desc&st_dt=&mode=detail&page=1";
+const genre = "comedy";
+const url = "https://www.imdb.com/search/title/?genres=" + genre + "&sort=user_rating,desc&title_type=feature&num_votes=25000,&pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=5aab685f-35eb-40f3-95f7-c53f09d542c3&pf_rd_r=HH90Q1ZC6DWPQX6ZJD8F&pf_rd_s=right-6&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_gnr_1";
 // IMDB list of top horror movies, sorted by number of votes, between 2000 and 2020
 
-// axios(url)
-// .then(function(res){
-// 	const html = res;
-// 	const $ = cheerio.load(html);
-// 	const horrorMoviesList = ("lister-item mode-detail");
-// 	console.log(horrorMoviesList.length);
+axios(url)
+.then(function(res){
+	const html = res.data;
+	const $ = cheerio.load(html);
+	const horrorMoviesList = $(".lister-list > .lister-item");
 
-// // Guide from : https://pusher.com/tutorials/web-scraper-node
-// // Figure out why it is undefined
-// // When you take out the > and lister-item it works 
-// });
+	horrorMoviesList.each(function(){
+		const name = $(this).find(".lister-item-content > .lister-item-header > a").text();
+		const score = $(this).find(".lister-item-content > .ratings-bar > .inline-block strong").text();
+		const description = "The movie " + name + " had a score of " + score;
+		console.log(description);
+	})
+})
+.catch(console.error);
 
 
 app.get("/", function(req, res){
