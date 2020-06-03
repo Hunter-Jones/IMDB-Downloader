@@ -8,33 +8,45 @@
 <body>
 	<h1 class="text-title">Movie Downloader</h1>
 	<p class="text-body">To start, select a genre(s) of movies. This will get a list of the most popular movies which include the selected genre(s), double click a genre to exclude movies from a specific genre. This will mean that movies from the excluded genre will not show up, even if the movie also has the included genre.</p>
+	<div class="wrapper">
+		<div class="menu menu-genre">
+			<p class="text-body menu-genre-title">Genres</p>
+			<input type="checkbox" class="genre-checkbox" id="genre-action" name="Action" value="include#off#exclude" /><label for="genre-action">Action</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-adventure" name="Adventure" value="include#off#exclude" /><label for="genre-adventure">Adventure</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-animation" name="Animation" value="include#off#exclude" /><label for="genre-animation">Animation</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-biography" name="Biography" value="include#off#exclude" /><label for="genre-biography">Biography</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-comedy" name="Comedy" value="include#off#exclude" /><label for="genre-comedy">Comedy</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-crime" name="Crime" value="include#off#exclude" /><label for="genre-crime">Crime</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-documentary" name="Documentary" value="include#off#exclude" /><label for="genre-documentary">Documentary</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-drama" name="Drama" value="include#off#exclude" /><label for="genre-drama">Drama</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-family" name="Family" value="include#off#exclude" /><label for="genre-family">Family</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-fantasy" name="Fantasy" value="include#off#exclude" /><label for="genre-fantasy">Fantasy</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-film-noir" name="Film Noir" value="include#off#exclude" /><label for="genre-film-noir">Film-Noir</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-history" name="History" value="include#off#exclude" /><label for="genre-history">History</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-horror" name="Horror" value="include#off#exclude" /><label for="genre-horror">Horror</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-music" name="Music" value="include#off#exclude" /><label for="genre-music">Music</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-mystery" name="Mystery" value="include#off#exclude" /><label for="genre-mystery">Mystery</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-romance" name="Romance" value="include#off#exclude" /><label for="genre-romance">Romance</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-sci-i" name="Sci-Fi" value="include#off#exclude" /><label for="genre-sci-fi">Sci-Fi</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-short-film" name="Short Film" value="include#off#exclude" /><label for="genre-short-film">Short</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-sport" name="Sport" value="include#off#exclude" /><label for="genre-sport">Sport</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-superhero" name="Superhero" value="include#off#exclude" /><label for="genre-superhero">Superhero</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-thriller" name="Thriller" value="include#off#exclude" /><label for="genre-thriller">Thriller</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-war" name="War" value="include#off#exclude" /><label for="genre-war">War</label><br>
+			<input type="checkbox" class="genre-checkbox" id="genre-western" name="Western" value="include#off#exclude" /><label for="genre-western">Western</label><br>
+		</div>
 
-	<div class="menu-genre">
-		<p class="text-body menu-genre-title">Genres</p>
-		<input type="checkbox" class="genre-checkbox" id="genre-action" name="Action" value="include#off#exclude" /><label for="genre-action">Action</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-adventure" name="Adventure" value="include#off#exclude" /><label for="genre-adventure">Adventure</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-animation" name="Animation" value="include#off#exclude" /><label for="genre-animation">Animation</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-biography" name="Biography" value="include#off#exclude" /><label for="genre-biography">Biography</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-comedy" name="Comedy" value="include#off#exclude" /><label for="genre-comedy">Comedy</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-crime" name="Crime" value="include#off#exclude" /><label for="genre-crime">Crime</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-documentary" name="Documentary" value="include#off#exclude" /><label for="genre-documentary">Documentary</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-drama" name="Drama" value="include#off#exclude" /><label for="genre-drama">Drama</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-family" name="Family" value="include#off#exclude" /><label for="genre-family">Family</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-fantasy" name="Fantasy" value="include#off#exclude" /><label for="genre-fantasy">Fantasy</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-film-noir" name="Film Noir" value="include#off#exclude" /><label for="genre-film-noir">Film-Noir</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-history" name="History" value="include#off#exclude" /><label for="genre-history">History</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-horror" name="Horror" value="include#off#exclude" /><label for="genre-horror">Horror</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-music" name="Music" value="include#off#exclude" /><label for="genre-music">Music</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-mystery" name="Mystery" value="include#off#exclude" /><label for="genre-mystery">Mystery</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-romance" name="Romance" value="include#off#exclude" /><label for="genre-romance">Romance</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-sci-i" name="Sci-Fi" value="include#off#exclude" /><label for="genre-sci-fi">Sci-Fi</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-short-film" name="Short Film" value="include#off#exclude" /><label for="genre-short-film">Short</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-sport" name="Sport" value="include#off#exclude" /><label for="genre-sport">Sport</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-superhero" name="Superhero" value="include#off#exclude" /><label for="genre-superhero">Superhero</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-thriller" name="Thriller" value="include#off#exclude" /><label for="genre-thriller">Thriller</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-war" name="War" value="include#off#exclude" /><label for="genre-war">War</label><br>
-		<input type="checkbox" class="genre-checkbox" id="genre-western" name="Western" value="include#off#exclude" /><label for="genre-western">Western</label><br>
+		<div class="menu menu-generate">
+			<button id="button-generate">Generate</button>
+		</div>
+
+		<div class="menu">
+			<p>Lorem ipsum</p>
+		</div>
+
 	</div>
+
+
 	<script src="js/index.js"></script>
 </body>
 </html>

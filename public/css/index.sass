@@ -18,9 +18,13 @@ $primary-text-size: 34px
 $secondary-text-size:21px
 $ternary-text-size:18px
 
+// Sizes
+$menu-size: 30vw
+
 // Actual CSS
-body 
+body
 	background-color: $primary-background-color
+	overflow: auto
 
 .text-title
 	color: $primary-text-color
@@ -32,12 +36,18 @@ body
 	font-size: $secondary-text-size
 	text-align: center
 
-.menu-genre
+.wrapper
+	display: flex
+	flex-wrap: wrap
+.menu
 	background-color:$primary-highlight-color
-	width: 30%
+	width: $menu-size
+	display: inline-block
+	vertical-align: top
+	margin: 5px
+
 .menu-genre-title
 	padding-top: 5%
-
 .genre-checkbox
 	margin-right: 1%
 	margin-left:35%
@@ -47,3 +57,9 @@ body
 	vertical-align: -2px
 	padding-right: 5%
 	
+.menu-generate
+	button
+		background-color: $primary-highlight-color
+		color: $secondary-highlight-color
+		padding: 5% 10% 5% 10%
+		margin-left: 33%

@@ -1,5 +1,6 @@
 body {
   background-color: #212227;
+  overflow: auto;
 }
 
 .text-title {
@@ -14,9 +15,17 @@ body {
   text-align: center;
 }
 
-.menu-genre {
+.wrapper {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.menu {
   background-color: #4f6d7a;
-  width: 30%;
+  width: 30vw;
+  display: inline-block;
+  vertical-align: top;
+  margin: 5px;
 }
 
 .menu-genre-title {
@@ -33,6 +42,13 @@ body {
   font-size: 18px;
   vertical-align: -2px;
   padding-right: 5%;
+}
+
+.menu-generate button {
+  background-color: #4f6d7a;
+  color: #b0b5b3;
+  padding: 5% 10% 5% 10%;
+  margin-left: 33%;
 }
 
 /*# sourceMappingURL=index.css.map */

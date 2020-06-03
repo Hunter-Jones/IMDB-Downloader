@@ -35,8 +35,6 @@ axios(url)
 app.get("/", function(req, res){
     res.render("index");
 })
-// app.get("/about", function(req, res){
-//     res.render("about");
-// })
+
 console.log("Server running");
 app.listen(port);
