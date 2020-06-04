@@ -18,14 +18,19 @@ body {
 .wrapper {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
+  margin-top: 30px;
 }
 
 .menu {
   background-color: #4f6d7a;
   width: 30vw;
-  display: inline-block;
-  vertical-align: top;
-  margin: 5px;
+  margin: 0 auto;
+  transition: all 0.25s linear;
+}
+
+.menu:hover {
+  transform: scale(1.025);
 }
 
 .menu-genre-title {
@@ -44,11 +49,21 @@ body {
   padding-right: 5%;
 }
 
+.menu-generate {
+  font-size: 21px;
+  color: #bdd4e7;
+  text-align: center;
+}
 .menu-generate button {
-  background-color: #4f6d7a;
-  color: #b0b5b3;
-  padding: 5% 10% 5% 10%;
-  margin-left: 33%;
+  background-color: #bdd4e7;
+  color: #4f6d7a;
+  font-size: 21px;
+  padding: 3% 5% 3% 5%;
+  border: 0;
+  border-radius: 20%;
+}
+.menu-generate button:hover {
+  cursor: pointer;
 }
 
 /*# sourceMappingURL=index.css.map */

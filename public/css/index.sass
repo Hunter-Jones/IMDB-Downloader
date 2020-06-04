@@ -39,12 +39,16 @@ body
 .wrapper
 	display: flex
 	flex-wrap: wrap
+	width:100%
+	margin-top: 30px
 .menu
 	background-color:$primary-highlight-color
 	width: $menu-size
-	display: inline-block
-	vertical-align: top
-	margin: 5px
+	margin: 0 auto
+
+	transition: all .25s linear
+.menu:hover
+	transform: scale(1.025)
 
 .menu-genre-title
 	padding-top: 5%
@@ -58,8 +62,18 @@ body
 	padding-right: 5%
 	
 .menu-generate
+	font-size: $secondary-text-size
+	color: $secondary-text-color
+	text-align: center
+
 	button
-		background-color: $primary-highlight-color
-		color: $secondary-highlight-color
-		padding: 5% 10% 5% 10%
-		margin-left: 33%
+		background-color: $secondary-text-color
+		color: $primary-highlight-color
+		font-size: $secondary-text-size
+
+		padding: 3% 5% 3% 5%
+		border: 0
+		border-radius: 20%
+
+	button:hover
+		cursor: pointer
