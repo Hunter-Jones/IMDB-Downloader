@@ -48,6 +48,6 @@ function genButton()
 			excludedGenres += genreCheckboxes[i].name + ",";
 		}
 	}
-	window.location.href = "/getmovie/include=" + includedGenres + "&exclude=" + excludedGenres + ";";
+	window.location.href = "/getmovie/include=" + includedGenres + "&exclude=" + excludedGenres;
 }
 
