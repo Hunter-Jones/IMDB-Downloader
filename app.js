@@ -25,6 +25,8 @@ app.get("/", function(req, res){
     res.render("index");
     // getMovies();
 })
+
+// This url was used as a way to send the include and exclude variables to nodeJS so they can be used in the webscraper
 app.get("/getmovie/*", function(req, res){
 
 	url = req.headers.host + '/' + req.url;
@@ -38,6 +40,7 @@ app.get("/getmovie/*", function(req, res){
 	}
 
     res.redirect("/");
+    url
 })
 
 console.log("Server running");
@@ -56,21 +59,33 @@ function getMovies(req, res, genres)
 			const name = $(this).find(".lister-item-content > .lister-item-header > a").text();
 			const genre = $(this).find(".lister-item-content > .text-muted > .genre").text();
 			const score = $(this).find(".lister-item-content > .ratings-bar > .inline-block strong").text();
-			const description = "The movie " + name + " had a score of " + score + " with the genres" + genre;
+			var description = "The movie " + name + " had a score of " + score + " with the genres" + genre;
 
 			var excludedGenres = genres.substring(genres.search("exclude="));
 			excludedGenres = excludedGenres.substring(8);
 			var excludedGenresList = excludedGenres.split(",");
 			// Checks if genres includes excluded genre
-			for (var i = 0; i < excludedGenresList.length; ++i)
-			{
-				if (!genre.includes(excludedGenresList[i]))
-				{
-					console.log(description);
-					// Only shows non-excluded genres
-				}
-			}
 			
+			// The excluded genres list always has at least element (even if empty)
+			// When empty the list only consists of 
+			if (excludedGenresList[0] != " ")
+			{
+				console.log(description);
+			}
+			else 
+			{
+
+				for (var i = 0; i < excludedGenresList.length; ++i)
+				{
+					if (!genre.includes(excludedGenresList[i]))
+					{
+						console.log(description);
+						// Only shows non-excluded genres
+					}
+				} 
+			}
+			// Loop to log description doesnt run if there are no exclusion, fixes
+
 		})
 	})
 	.catch(console.error);
