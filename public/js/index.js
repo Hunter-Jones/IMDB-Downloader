@@ -33,5 +33,21 @@ function setIndeterminate()
 // Post: Sends the genres for the movies
 function genButton()
 {
+	var includedGenres = "";
+	var excludedGenres = "";
+
+	// loop through array and adds movies to included or excluded list
+	for (var i = 0; i < genreCheckboxes.length; ++i)
+	{
+		if (genreCheckboxes[i].checked == true)
+		{  // Include
+			includedGenres += genreCheckboxes[i].name + ",";
+		}
+		else if (genreCheckboxes[i].checked == false && genreCheckboxes[i].indeterminate == false)
+		{  // Exclude
+			excludedGenres += genreCheckboxes[i].name + ",";
+		}
+	}
+	window.location.href = "/getmovie/include=" + includedGenres + "&exclude=" + excludedGenres + ";";
 }
 
