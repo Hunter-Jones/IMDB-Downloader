@@ -5,6 +5,8 @@ const 	http            = require("http"),
     	ejs             = require("ejs");
     	axios 			= require('axios');
     	cheerio 		= require('cheerio');
+    	debug 			= require('debug');
+
 
     	app             = express();
 
@@ -18,21 +20,22 @@ app.set('view engine', 'ejs');
 // var url = "https://www.imdb.com/search/title/?genres=" + genre + "&sort=user_rating,desc&title_type=feature&num_votes=25000,&pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=5aab685f-35eb-40f3-95f7-c53f09d542c3&pf_rd_r=HH90Q1ZC6DWPQX6ZJD8F&pf_rd_s=right-6&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_gnr_1";
 // IMDB list of top horror movies, sorted by number of votes, between 2000 and 2020
 
+// Variable for all of the movies
 
 
+var movieDescriptionList = "blank";
 
 app.get("/", function(req, res){
-    res.render("index");
-    // getMovies();
+    res.render("index", {movieDescriptionList:movieDescriptionList});
+    // FIX ISSUE WHERE IT ONLY UPDATES ON SECOND CLICK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! (do before next git add .)
 })
 
 // This url was used as a way to send the include and exclude variables to nodeJS so they can be used in the webscraper
 app.get("/getmovie/*", function(req, res){
 
 	url = req.headers.host + '/' + req.url;
-	var movieDescriptionList = parseGenres(res, url)
-
-    res.redirect("/");
+	parseGenres(res, url);    
+	
 })
 
 console.log("Server running");
@@ -48,10 +51,9 @@ function parseGenres(res, url)
 	if (url.includes("include="))
 	{
 
-    	url = url.substring(33);  // 33 - -1 is anything include= and beyond
-		// console.log(url);
+    	url = url.substring(33);  // 33 -1 is anything include= and beyond
 		// url becomes just a list of included and not included genres
-		return getMovies(res, url);
+		getMovies(res, url);
 	}
 }
 // Pre: requires request response and the variable genres which is a string with all of the IMDB movie genres included/excluded
@@ -63,15 +65,16 @@ function parseGenres(res, url)
 // It then checks each movie to make sure it doesn't include an excluded genre 
 //(The webscraper only gets access to the top 3 genres of a movie, so it isn't perfect, but IMDB doesn't include its own exclusion in advanced search and the webpage only shows the first 3 genres, so there is no other solution)
 // At the end, it adds each non-exclude movie's genre, name, and score to the descriptionList variable and returns it 
-function getMovies(res, genres)
+async function getMovies(res, genres)
 {
 	var url = "https://www.imdb.com/search/title/?genres=" + genres + "&sort=user_rating,desc&title_type=feature&num_votes=25000,&pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=5aab685f-35eb-40f3-95f7-c53f09d542c3&pf_rd_r=HH90Q1ZC6DWPQX6ZJD8F&pf_rd_s=right-6&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_gnr_1";
+	descriptionList = "";
+
 	axios(url)
 	.then(function(res){
 		const html = res.data;
 		const $ = cheerio.load(html);
 		const horrorMoviesList = $(".lister-list > .lister-item");
-		var descriptionList = "";
 
 		horrorMoviesList.each(function(){
 			const name = $(this).find(".lister-item-content > .lister-item-header > a").text();
@@ -101,10 +104,12 @@ function getMovies(res, genres)
 					}
 				} 
 			}
-			// Loop to log description doesnt run if there are no exclusion, fixes
-			console.log(descriptionList);
-			return descriptionList;
-		})
+		});
+	})
+	.then(function(){
+		movieDescriptionList = descriptionList;
+		res.redirect("/");
+		// Promise chain used with res.redirect to fix error where rederict happens before movieDescriptionList 
 	})
 	.catch(console.error);
 }

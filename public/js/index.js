@@ -15,8 +15,6 @@ function setAllIndeterminate(checkboxes)
 	{
 		checkboxes[i].ondblclick = setIndeterminate;
 		checkboxes[i].indeterminate = true;
-		// some reason it just sets it at start, 
-		/*TODO*/
 	}
 
 	// for (var i = 0; i < genreCheckboxes)
