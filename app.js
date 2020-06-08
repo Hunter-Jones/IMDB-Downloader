@@ -27,7 +27,6 @@ var movieDescriptionList = "blank";
 
 app.get("/", function(req, res){
     res.render("index", {movieDescriptionList:movieDescriptionList});
-    // FIX ISSUE WHERE IT ONLY UPDATES ON SECOND CLICK!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! (do before next git add .)
 })
 
 // This url was used as a way to send the include and exclude variables to nodeJS so they can be used in the webscraper

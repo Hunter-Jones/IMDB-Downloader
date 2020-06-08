@@ -65,5 +65,9 @@ body {
 .menu-generate button:hover {
   cursor: pointer;
 }
+.menu-generate #button-copy-text {
+  visibility: hidden;
+  font-size: 0px;
+}
 
 /*# sourceMappingURL=index.css.map */
