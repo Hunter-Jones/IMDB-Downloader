@@ -1,8 +1,11 @@
 var genreCheckboxes = document.getElementsByClassName("genre-checkbox");
 var generateButton = document.getElementById("button-generate");
+var copyButton = document.getElementById("button-copy");
+var moviesList = document.getElementById("button-copy-text");
 
 setAllIndeterminate(genreCheckboxes);
 generateButton.onclick = genButton;
+copyButton.addEventListener("click", function(){copyText(moviesList, copyButton)});
 
 
 // Pre: Runs immedietely, requires the checkboxes variable to be filled with an array of checkboxes
@@ -36,6 +39,8 @@ function genButton()
 	var includedGenres = "";
 	var excludedGenres = "";
 
+	copyButton.innerHTML = "Loading";
+
 	// loop through array and adds movies to included or excluded list
 	for (var i = 0; i < genreCheckboxes.length; ++i)
 	{
@@ -51,3 +56,20 @@ function genButton()
 	window.location.href = "/getmovie/include=" + includedGenres + "&exclude=" + excludedGenres;
 }
 
+function copyText(message, thisButton)
+{
+	message.select();
+  	message.setSelectionRange(0, 99999); /*For mobile devices*/
+
+	/* Copy the text inside the text field */
+	navigator.clipboard.writeText(message.value);
+
+	/* Alert the copied text */
+	// alert("Copied the text: " + message.value);
+
+	/* Change the text of the botton for 5 seconds */
+	thisButton.innerHTML = "Copied";
+	setTimeout(function(){
+		thisButton.innerHTML = "Copy";
+	}, 5000);
+}
