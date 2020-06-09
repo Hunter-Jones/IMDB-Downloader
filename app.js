@@ -22,8 +22,9 @@ app.set('view engine', 'ejs');
 
 // Variable for all of the movies
 
-
+// Description variable which includes the names of every horror movie
 var movieDescriptionList = "blank";
+var statusMessage;
 
 app.get("/", function(req, res){
     res.render("index", {movieDescriptionList:movieDescriptionList});

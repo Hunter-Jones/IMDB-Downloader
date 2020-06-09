@@ -70,4 +70,15 @@ body {
   font-size: 0px;
 }
 
+.menu-list {
+  visibility: hidden;
+  display: none !important;
+}
+.menu-list textarea {
+  width: 95%;
+  height: 95%;
+  margin-top: 2.5%;
+  margin-left: 2.5%;
+}
+
 /*# sourceMappingURL=index.css.map */
