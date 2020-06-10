@@ -40,15 +40,21 @@
 			<p>When you are ready to generate a list of movies, hit the generate button</p>
 			<button id="button-generate">Generate</button>
 
-			<p>Once the movies have been generated, click here to copy the list</p>
+			<p>Once the movies have been generated, click here to a list of the top movie's names</p>
 			<button id="button-copy">Copy</button>
+
+			<p>Click here to download the torrent links</p>
+			<button id="button-copy-torrent">Copy</button>
+
+			<p id="torrenting-status"><%= doneTorrenting %></p>
 			
 		</div>
 
 		<div class="menu menu-list">
 			<textarea id="button-copy-text"><%= movieDescriptionList %></textarea>
-			Hidden, just used to access node.js info in JS
+			<!--Hidden, just used to access node.js info in JS-->
 			<!-- select, to copy to clipboard doesnt work with paragraphs-->
+			<textarea id="button-copy-torrenttext"><%= movieLinkList %></textarea>
 		</div>
 
 <!-- 		<div class="menu">

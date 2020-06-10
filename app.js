@@ -30,11 +30,14 @@ TorrentSearchApi.enablePublicProviders();
 
 // Description variable which includes the names of every horror movie
 var movieDescriptionList = "";
+var movieLinkList = "";
+var doneTorrenting = false;
 var statusMessage;
 
 app.get("/", function(req, res){
-    res.render("index", {movieDescriptionList:movieDescriptionList});
-})
+    res.render("index", {movieDescriptionList:movieDescriptionList, movieLinkList:movieLinkList, doneTorrenting:doneTorrenting});
+    doneTorrenting = false;
+});
 
 // This url was used as a way to send the include and exclude variables to nodeJS so they can be used in the webscraper
 app.get("/getmovie/*", function(req, res){
@@ -78,12 +81,22 @@ function getMovies(res, genres)
 	.then(function(res){
 		const html = res.data;
 		const $ = cheerio.load(html);
-		const horrorMoviesList = $(".lister-list > .lister-item");
+		const moviesList = $(".lister-list > .lister-item");
 
-		for (var i = 0; i < 1; ++i)
+		for (var i = 0; i < moviesList.length; ++i)
 		{
-			var movieName = scrapeMovie($, horrorMoviesList[i], genres);
-			torrentMovie(movieName);
+			var movieName = scrapeMovie($, moviesList[i], genres);
+			if (i == moviesList.length - 1)
+			{
+				// Adds the extra parameter to end if last movie
+				// Needs to be done in the async function because otherwise it would run before the async function finishes
+				torrentMovie(movieName, res, true);
+			}
+			else
+			{
+				torrentMovie(movieName, res);
+			}
+			
 		}	
 	})
 	.then(function(){
@@ -138,14 +151,25 @@ function scrapeMovie($, movie, unparsedGenres)
 // Pre: Requires the name for a movie
 // Post asynchronously goes and finds the name for a torrented movie and returns the link if it exists
 // NOTE: This will take a LONG time (multiple minutes for 50) 
-async function torrentMovie(name)
-{ name = 'asdfjlkfdlkjasjlkdfsalkjfdas'
+async function torrentMovie(name, res, lastMovie=false)
+{
 	// console.log("Torrenting " + name);
 	const movieLink = await TorrentSearchApi.search(name, 'Movies', 1);
 	// console.log(movieLink.link);
-	
+
 	if (movieLink.link != undefined) 
 	{
-		return movieLink.link;
+		movieListLink += movieLink.link;
 	}
+
+
+	if(lastMovie)
+	{
+		doneTorrenting = true;
+		console.log("Finished")
+		redirect(res);
+	}
+}
+function redirect(res){
+	res.redirect("/test");
 }

@@ -4,6 +4,7 @@ var genreCheckboxes = document.getElementsByClassName("genre-checkbox");
 var generateButton = document.getElementById("button-generate");
 var copyButton = document.getElementById("button-copy");
 var moviesList = document.getElementById("button-copy-text");
+var torrentingStatus = document.getElementById("torrentingStatus");
 
 setAllIndeterminate(genreCheckboxes);
 generateButton.onclick = genButton;
@@ -74,4 +75,9 @@ function copyText(message, thisButton)
 	setTimeout(function(){
 		thisButton.innerHTML = "Copy";
 	}, 5000);
+}
+
+if (torrentingStatus.innerHTML == true)
+{
+	alert("Links have been generated");
 }
