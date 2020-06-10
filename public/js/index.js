@@ -1,3 +1,5 @@
+// TODO: Find way to have the text change from loading whenever the contents of button-copy text change``
+
 var genreCheckboxes = document.getElementsByClassName("genre-checkbox");
 var generateButton = document.getElementById("button-generate");
 var copyButton = document.getElementById("button-copy");
