@@ -17,7 +17,7 @@ app.use(express.static(__dirname + "/public"));
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'ejs');
 
-// Sets the search website to Limetorrents
+// Sets the search website to any torrent site which is free
 TorrentSearchApi.enablePublicProviders();
 
 // var genre = "comedy";
@@ -67,10 +67,8 @@ function parseGenres(res, url)
 // ex include=comedy,horror&exclude=family,action
 // In this example, it will show only comedy horror movies that do not include the genres family or action
 //Post: Takes the genres list and adds it to the url, then webscrapes the url for the top 50 highest rated movies which include whats in genres variable, are feature films, and recieved 25k reviews
-// For each movie it gets the name score and genre, then adds them to a description
-// It then checks each movie to make sure it doesn't include an excluded genre 
-//(The webscraper only gets access to the top 3 genres of a movie, so it isn't perfect, but IMDB doesn't include its own exclusion in advanced search and the webpage only shows the first 3 genres, so there is no other solution)
-// At the end, it adds each non-exclude movie's genre, name, and score to the descriptionList variable and returns it 
+// It will then run the scrapeMovie and getTorrent functions for each movie 
+// Finally, it redirects the webpage back to the default URL, which has the descriptionList variable updated to be passed
 function getMovies(res, genres)
 {
 	var url = "https://www.imdb.com/search/title/?genres=" + genres + "&sort=user_rating,desc&title_type=feature&num_votes=25000,&pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=5aab685f-35eb-40f3-95f7-c53f09d542c3&pf_rd_r=HH90Q1ZC6DWPQX6ZJD8F&pf_rd_s=right-6&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_gnr_1";
@@ -82,9 +80,10 @@ function getMovies(res, genres)
 		const $ = cheerio.load(html);
 		const horrorMoviesList = $(".lister-list > .lister-item");
 
-		for (var i = 0; i < horrorMoviesList.length; ++i)
+		for (var i = 0; i < 1; ++i)
 		{
-			scrapeMovie($, horrorMoviesList[i], genres);
+			var movieName = scrapeMovie($, horrorMoviesList[i], genres);
+			torrentMovie(movieName);
 		}	
 	})
 	.then(function(){
@@ -97,8 +96,11 @@ function getMovies(res, genres)
 
 // Pre requires $ which is the cheerio keyword for the loaded HTML
 // It also requires a movie from IMDB's website to webscrape and the list of genres from the URL, which need to be parsed
-// Post 
-function scrape($, movie, unparsedGenres)
+// For each movie it gets the name score and genre, then adds them to a description
+// It then checks each movie to make sure it doesn't include an excluded genre 
+//(The webscraper only gets access to the top 3 genres of a movie, so it isn't perfect, but IMDB doesn't include its own exclusion in advanced search and the webpage only shows the first 3 genres, so there is no other solution)
+// At the end, it adds each non-exclude movie's genre, name, and score to the descriptionList variable and returns it 
+function scrapeMovie($, movie, unparsedGenres)
 {
 	const name = $(movie).find(".lister-item-content > .lister-item-header > a").text();
 	const genre = $(movie).find(".lister-item-content > .text-muted > .genre").text();
@@ -131,4 +133,19 @@ function scrape($, movie, unparsedGenres)
 		} 
 	}
 	return name;
+}
+
+// Pre: Requires the name for a movie
+// Post asynchronously goes and finds the name for a torrented movie and returns the link if it exists
+// NOTE: This will take a LONG time (multiple minutes for 50) 
+async function torrentMovie(name)
+{ name = 'asdfjlkfdlkjasjlkdfsalkjfdas'
+	// console.log("Torrenting " + name);
+	const movieLink = await TorrentSearchApi.search(name, 'Movies', 1);
+	// console.log(movieLink.link);
+	
+	if (movieLink.link != undefined) 
+	{
+		return movieLink.link;
+	}
 }
