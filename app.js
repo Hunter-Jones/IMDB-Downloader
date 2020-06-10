@@ -78,7 +78,7 @@ function getMovies(res, genres)
 	descriptionList = "";
 
 	axios(url)
-	.then(function(res){
+	.then(async function(res){
 		const html = res.data;
 		const $ = cheerio.load(html);
 		const moviesList = $(".lister-list > .lister-item");
@@ -86,15 +86,15 @@ function getMovies(res, genres)
 		for (var i = 0; i < moviesList.length; ++i)
 		{
 			var movieName = scrapeMovie($, moviesList[i], genres);
-			if (i == moviesList.length - 1)
+			if (i == moviesList.length)
 			{
 				// Adds the extra parameter to end if last movie
 				// Needs to be done in the async function because otherwise it would run before the async function finishes
-				torrentMovie(movieName, res, true);
+				await torrentMovie(movieName, res, true);
 			}
 			else
 			{
-				torrentMovie(movieName, res);
+				torrentMovie(movieName);
 			}
 			
 		}	
@@ -159,7 +159,11 @@ async function torrentMovie(name, res, lastMovie=false)
 
 	if (movieLink.link != undefined) 
 	{
-		movieListLink += movieLink.link;
+		movieLinkList += movieLink.link;
+	}
+	else
+	{
+		movieLinkList += "The movie " + name + " could not be added"
 	}
 
 
@@ -167,9 +171,5 @@ async function torrentMovie(name, res, lastMovie=false)
 	{
 		doneTorrenting = true;
 		console.log("Finished")
-		redirect(res);
 	}
-}
-function redirect(res){
-	res.redirect("/test");
 }
