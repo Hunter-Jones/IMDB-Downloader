@@ -34,9 +34,14 @@ var movieLinkList = "";
 var doneTorrenting = false;
 var statusMessage;
 
+const MAX_MOVIES = 10;
+
 app.get("/", function(req, res){
     res.render("index", {movieDescriptionList:movieDescriptionList, movieLinkList:movieLinkList, doneTorrenting:doneTorrenting});
+   
     doneTorrenting = false;
+    movieDescriptionList = "";
+    movieLinkList = "";
 });
 
 // This url was used as a way to send the include and exclude variables to nodeJS so they can be used in the webscraper
@@ -83,18 +88,21 @@ function getMovies(res, genres)
 		const $ = cheerio.load(html);
 		const moviesList = $(".lister-list > .lister-item");
 
-		for (var i = 0; i < moviesList.length; ++i)
+		var listSize = moviesList.length  // Makes the max movie list size of 10
+		if (listSize > MAX_MOVIES) {listSize = MAX_MOVIES}
+
+		for (var i = 0; i < listSize; ++i)
 		{
 			var movieName = scrapeMovie($, moviesList[i], genres);
-			if (i == moviesList.length)
+			if (i +1 == moviesList.length)
 			{
 				// Adds the extra parameter to end if last movie
 				// Needs to be done in the async function because otherwise it would run before the async function finishes
-				await torrentMovie(movieName, res, true);
+				await torrentMovie(movieName, res);
 			}
 			else
 			{
-				torrentMovie(movieName);
+				torrentMovie(movieName, res);
 			}
 			
 		}	
@@ -151,25 +159,19 @@ function scrapeMovie($, movie, unparsedGenres)
 // Pre: Requires the name for a movie
 // Post asynchronously goes and finds the name for a torrented movie and returns the link if it exists
 // NOTE: This will take a LONG time (multiple minutes for 50) 
-async function torrentMovie(name, res, lastMovie=false)
+async function torrentMovie(name, res)
 {
-	// console.log("Torrenting " + name);
+	console.log("Torrenting " + name);
 	const movieLink = await TorrentSearchApi.search(name, 'Movies', 1);
-	// console.log(movieLink.link);
+	console.log(movieLink[0].link);
 
-	if (movieLink.link != undefined) 
+	if (movieLink[0].link != undefined) 
 	{
-		movieLinkList += movieLink.link;
+		movieLinkList += movieLink[0].link;
+		movieLinkList += "\n";
 	}
 	else
 	{
-		movieLinkList += "The movie " + name + " could not be added"
-	}
-
-
-	if(lastMovie)
-	{
-		doneTorrenting = true;
-		console.log("Finished")
+		movieLinkList += "The movie " + name + " could not be added\n";
 	}
 }
