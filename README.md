@@ -1,8 +1,8 @@
 Movie Downloader
 ==============
 
-Build Status
---------------
+<!-- Build Status
+-------------- -->
 <!-- [![HunterJones](https://circleci.com/gh/<HunterJones>/MovieDownloader.svg?style=svg)](https://github.com/Hunter-Jones/IMDB-Downloader) -->
 
 What is the purpose?
