@@ -2,13 +2,18 @@
 
 var genreCheckboxes = document.getElementsByClassName("genre-checkbox");
 var generateButton = document.getElementById("button-generate");
-var copyButton = document.getElementById("button-copy");
+
+var movieButton = document.getElementById("button-copy");  // Used for movie name
 var moviesList = document.getElementById("button-copy-text");
-var torrentingStatus = document.getElementById("torrentingStatus");
+
+var torrentButton = document.getElementById("button-copy-torrent"); // used for movie torrent
+var torrentList = document.getElementById("button-copy-torrent-text");
 
 setAllIndeterminate(genreCheckboxes);
 generateButton.onclick = genButton;
-copyButton.addEventListener("click", function(){copyText(moviesList, copyButton)});
+movieButton.addEventListener("click", function(){copyText(moviesList, movieButton)});
+torrentButton.addEventListener("click", function(){copyText(torrentList, torrentButton)});
+
 
 
 // Pre: Runs immedietely, requires the checkboxes variable to be filled with an array of checkboxes
@@ -42,7 +47,7 @@ function genButton()
 	var includedGenres = "";
 	var excludedGenres = "";
 
-	copyButton.innerHTML = "Loading";
+	movieButton.innerHTML = "Loading";
 
 	// loop through array and adds movies to included or excluded list
 	for (var i = 0; i < genreCheckboxes.length; ++i)
@@ -61,6 +66,8 @@ function genButton()
 
 function copyText(message, thisButton)
 {
+	location.reload();  // Reloads the page, rechecking the variables first
+
 	message.select();
   	message.setSelectionRange(0, 99999); /*For mobile devices*/
 

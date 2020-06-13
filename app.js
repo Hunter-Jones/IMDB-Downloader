@@ -40,8 +40,6 @@ app.get("/", function(req, res){
     res.render("index", {movieDescriptionList:movieDescriptionList, movieLinkList:movieLinkList, doneTorrenting:doneTorrenting});
    
     doneTorrenting = false;
-    movieDescriptionList = "";
-    movieLinkList = "";
 });
 
 // This url was used as a way to send the include and exclude variables to nodeJS so they can be used in the webscraper
@@ -49,7 +47,11 @@ app.get("/getmovie/*", function(req, res){
 
 	url = req.headers.host + '/' + req.url;
 	parseGenres(res, url);    
-	
+
+	    movieDescriptionList = "";
+    // movieLinkList = "";  // Remove to make the list continuously grow
+    // This works because even if there are duplicates, when added to qbt they are combined \
+    // It is put here, so the only time that the moveLinkList is refreshed is when the user reclicks the generate button
 })
 
 console.log("Server running");
