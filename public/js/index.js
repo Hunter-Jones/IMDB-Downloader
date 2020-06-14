@@ -64,6 +64,10 @@ function genButton()
 	window.location.href = "/getmovie/include=" + includedGenres + "&exclude=" + excludedGenres;
 }
 
+// Pre: Requires any string of text (message) and a HTML clickable button object
+// Post: Reloads the page, resetting any variables
+// then copies the string from message to the users clipboard to CTRL+V
+// Finally, it sets the innerHTML of button to copied for 5 seconds before changing it to the original text again to let the user know it worked
 function copyText(message, thisButton)
 {
 	location.reload();  // Reloads the page, rechecking the variables first
@@ -78,13 +82,10 @@ function copyText(message, thisButton)
 	// alert("Copied the text: " + message.value);
 
 	/* Change the text of the botton for 5 seconds */
+	originalText = thisButton.innerHTML;
 	thisButton.innerHTML = "Copied";
-	setTimeout(function(){
-		thisButton.innerHTML = "Copy";
-	}, 5000);
-}
 
-if (torrentingStatus.innerHTML == true)
-{
-	alert("Links have been generated");
+	setTimeout(function(){
+		thisButton.innerHTML = originalText;
+	}, 5000);
 }
