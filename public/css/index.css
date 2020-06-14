@@ -34,7 +34,7 @@ body {
 }
 
 .menu-genre-title {
-  padding-top: 5%;
+  font-style: 21px;
 }
 
 .genre-checkbox {
@@ -49,23 +49,25 @@ body {
   padding-right: 5%;
 }
 
-.menu-generate {
-  font-size: 21px;
+.menu-options {
   color: #bdd4e7;
   text-align: center;
 }
-.menu-generate button {
+.menu-options button {
   background-color: #bdd4e7;
   color: #4f6d7a;
-  font-size: 21px;
-  padding: 3% 5% 3% 5%;
+  font-size: 18px;
+  padding: 1.5% 3% 1.5% 3%;
   border: 0;
   border-radius: 20%;
 }
-.menu-generate button:hover {
+.menu-options p {
+  font-size: 18px;
+}
+.menu-options button:hover {
   cursor: pointer;
 }
-.menu-generate #button-copy-text {
+.menu-options #button-copy-text {
   visibility: hidden;
   font-size: 0px;
 }
