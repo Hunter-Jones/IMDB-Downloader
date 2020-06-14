@@ -163,17 +163,25 @@ function scrapeMovie($, movie, unparsedGenres)
 // NOTE: This will take a LONG time (multiple minutes for 50) 
 async function torrentMovie(name, res)
 {
-	console.log("Torrenting " + name);
+	// console.log("Torrenting " + name);
 	const movieLink = await TorrentSearchApi.search(name, 'Movies', 1);
-	console.log(movieLink[0].link);
+	// console.log(movieLink[0].link);
 
-	if (movieLink[0].link != undefined) 
+	try
 	{
-		movieLinkList += movieLink[0].link;
-		movieLinkList += "\n";
+		if (movieLink[0].link != undefined) 
+		{
+			movieLinkList += movieLink[0].link;
+			movieLinkList += "\n";
+		}
+		else
+		{
+			movieLinkList += "The movie " + name + " could not be added\n";
+		}
 	}
-	else
+	catch(error)
 	{
-		movieLinkList += "The movie " + name + " could not be added\n";
+		console.log("Error adding " + name);
 	}
+	
 }
