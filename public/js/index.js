@@ -9,10 +9,23 @@ var moviesList = document.getElementById("button-copy-text");
 var torrentButton = document.getElementById("button-copy-torrent"); // used for movie torrent
 var torrentList = document.getElementById("button-copy-torrent-text");
 
+var showTextButton = document.getElementById("button-show-text");
+var showFaqButton = document.getElementById("button-show-faq");
+
+var faqDiv = document.getElementsByClassName("menu-faq")[0];
+var textDiv = document.getElementsByClassName("menu-list")[0];
+
 setAllIndeterminate(genreCheckboxes);
 generateButton.onclick = genButton;
+
+// Lets both buttons copy from their respective lists
 movieButton.addEventListener("click", function(){copyText(moviesList, movieButton)});
 torrentButton.addEventListener("click", function(){copyText(torrentList, torrentButton)});
+ 
+// Lets both buttons hide their respective element
+showTextButton.addEventListener("click", function(){toggleShow(faqDiv, textDiv, "inline")})
+showFaqButton.addEventListener("click", function(){toggleShow(textDiv, faqDiv, "inline-block")})
+
 
 
 
@@ -48,6 +61,7 @@ function genButton()
 	var excludedGenres = "";
 
 	movieButton.innerHTML = "Loading";
+	torrentButton.innerHTML = "Loading";
 
 	// loop through array and adds movies to included or excluded list
 	for (var i = 0; i < genreCheckboxes.length; ++i)
@@ -88,4 +102,27 @@ function copyText(message, thisButton)
 	setTimeout(function(){
 		thisButton.innerHTML = originalText;
 	}, 5000);
+}
+
+// Pre: UnselectedObjects is an array of ALL elements that should be hidden when the selectedElement is toggled
+// SelectedElement is the element to be toggled
+// Display is the CSS display property that the selectedObject should be when displayed
+function toggleShow(unselectedObjects, selectedObject, display)
+{
+	// Hides non-selected element
+	unselectedObjects.style.visibility = "hidden";
+	unselectedObjects.style.setProperty("display", "none", "important");
+
+	// Toggles visibility on the main object
+	if (selectedObject.style.visibility != "visible")
+	{
+		selectedObject.style.visibility = "visible";
+		selectedObject.style.setProperty("display", display, "important");
+	}
+	else
+	{
+		selectedObject.style.visibility = "hidden";
+		selectedObject.style.setProperty("display", "none", "important");
+	}
+	
 }
