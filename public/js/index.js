@@ -67,7 +67,7 @@ function genButton()
 // Pre: Requires any string of text (message) and a HTML clickable button object
 // Post: Reloads the page, resetting any variables
 // then copies the string from message to the users clipboard to CTRL+V
-// Finally, it sets the innerHTML of button to copied for 5 seconds before changing it to the original text again to let the user know it worked
+// Finally, it sets the innerHTML of button to copied for 5 seconds before changing it to the again to let the user know it worked
 function copyText(message, thisButton)
 {
 	location.reload();  // Reloads the page, rechecking the variables first

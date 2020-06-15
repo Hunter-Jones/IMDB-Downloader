@@ -31,15 +31,14 @@ TorrentSearchApi.enablePublicProviders();
 // Description variable which includes the names of every horror movie
 var movieDescriptionList = "";
 var movieLinkList = "";
-var doneTorrenting = false;
 var statusMessage;
 
+// Can not be above 49, because the website only has 50 movies, and it will cause the page to infinitely scroll
 const MAX_MOVIES = 10;
 
+
 app.get("/", function(req, res){
-    res.render("index", {movieDescriptionList:movieDescriptionList, movieLinkList:movieLinkList, doneTorrenting:doneTorrenting});
-   
-    doneTorrenting = false;
+    res.render("index", {movieDescriptionList:movieDescriptionList, movieLinkList:movieLinkList});
 });
 
 // This url was used as a way to send the include and exclude variables to nodeJS so they can be used in the webscraper
@@ -90,7 +89,7 @@ function getMovies(res, genres)
 		const $ = cheerio.load(html);
 		const moviesList = $(".lister-list > .lister-item");
 
-		var listSize = moviesList.length  // Makes the max movie list size of 10
+		var listSize = moviesList.length  // Makes the max movie list size of MAX_MOVIES
 		if (listSize > MAX_MOVIES) {listSize = MAX_MOVIES}
 
 		for (var i = 0; i < listSize; ++i)
@@ -128,7 +127,7 @@ function scrapeMovie($, movie, unparsedGenres)
 	const name = $(movie).find(".lister-item-content > .lister-item-header > a").text();
 	const genre = $(movie).find(".lister-item-content > .text-muted > .genre").text();
 	const score = $(movie).find(".lister-item-content > .ratings-bar > .inline-block strong").text();
-	var description = "The movie " + name + " had a score of " + score + " with the genres" + genre;
+	var description = "The movie " + name + " had a score of " + score;
 	
 	// Used to see the movie name VIA console
 	// console.log(name);
@@ -171,12 +170,12 @@ async function torrentMovie(name, res)
 	{
 		if (movieLink[0].link != undefined) 
 		{
-			movieLinkList += movieLink[0].link;
+			movieLinkList += name +  ": " + movieLink[0].link;
 			movieLinkList += "\n";
 		}
 		else
 		{
-			movieLinkList += "The movie " + name + " could not be added\n";
+			movieLinkList += name + " wasn't found\n";
 		}
 	}
 	catch(error)
