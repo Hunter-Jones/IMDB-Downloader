@@ -86,6 +86,17 @@ body {
 .menu-faq {
   visibility: hidden;
   display: none !important;
+  padding: 30px;
+  line-height: 0.7;
+}
+.menu-faq .faq-question {
+  font-size: 21px;
+  color: #f7f7ff;
+}
+.menu-faq .faq-answer {
+  font-size: 18px;
+  padding-left: 15px;
+  color: #bdd4e7;
 }
 
 /*# sourceMappingURL=index.css.map */
