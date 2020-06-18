@@ -15,6 +15,12 @@ var showFaqButton = document.getElementById("button-show-faq");
 var faqDiv = document.getElementsByClassName("menu-faq")[0];
 var textDiv = document.getElementsByClassName("menu-list")[0];
 
+var interval = setInterval(function() {
+    if(performance.navigation.type != 1) {
+        // movieButton.innerHTML = "READY";
+    }    
+}, 100);
+
 setAllIndeterminate(genreCheckboxes);
 generateButton.onclick = genButton;
 
@@ -62,6 +68,9 @@ function genButton()
 
 	movieButton.innerHTML = "Loading";
 	torrentButton.innerHTML = "Loading";
+	movieButton.disabled = true;
+	torrentButton.disabled = true;
+	generateButton.disabled = true;
 
 	// loop through array and adds movies to included or excluded list
 	for (var i = 0; i < genreCheckboxes.length; ++i)
