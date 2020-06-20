@@ -94,7 +94,7 @@ function genButton()
 function copyText(message, thisButton)
 {
 	location.reload();  // Reloads the page, rechecking the variables first
-
+	location.reload();
 	message.select();
   	message.setSelectionRange(0, 99999); /*For mobile devices*/
 

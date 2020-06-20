@@ -18,7 +18,9 @@ app.engine('html', ejs.renderFile);
 app.set('view engine', 'ejs');
 
 // Sets the search website to any torrent site which is free
-TorrentSearchApi.enableProvider('Torrent9');
+TorrentSearchApi.enablePublicProviders();
+// At time of creation 9T has an error where it only returns Artemis Fowl French instead of correct movie
+TorrentSearchApi.disableProvider('Torrent9');
 
 // var genre = "comedy";
 // for genre = "action", it will show any movie with action
@@ -166,9 +168,10 @@ async function torrentMovie(name, res)
 	const movieLink = await TorrentSearchApi.search(name, 'Movies', 1);
 	// console.log(movieLink[0].link);
 
-	try
-	{
-		if (movieLink[0].desc != undefined) 
+	// try
+	// {
+		console.log(movieLink)
+		if (movieLink[0] != undefined) 
 		{
 			movieLinkList += name +  ": " + movieLink[0].desc;
 			movieLinkList += "\n";
@@ -177,10 +180,10 @@ async function torrentMovie(name, res)
 		{
 			movieLinkList += name + " wasn't found\n";
 		}
-	}
-	catch(error)
-	{
-		console.log("Error adding " + name);
-	}
+	// }
+	// catch(error)
+	// {
+	// 	console.log("Error adding " + name);
+	// }
 	
 }
