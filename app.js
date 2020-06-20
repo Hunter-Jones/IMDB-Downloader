@@ -18,7 +18,7 @@ app.engine('html', ejs.renderFile);
 app.set('view engine', 'ejs');
 
 // Sets the search website to any torrent site which is free
-TorrentSearchApi.enablePublicProviders();
+TorrentSearchApi.enableProvider('Torrent9');
 
 // var genre = "comedy";
 // for genre = "action", it will show any movie with action
@@ -168,9 +168,9 @@ async function torrentMovie(name, res)
 
 	try
 	{
-		if (movieLink[0].link != undefined) 
+		if (movieLink[0].desc != undefined) 
 		{
-			movieLinkList += name +  ": " + movieLink[0].link;
+			movieLinkList += name +  ": " + movieLink[0].desc;
 			movieLinkList += "\n";
 		}
 		else
