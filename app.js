@@ -33,7 +33,6 @@ TorrentSearchApi.disableProvider('Torrent9');
 // Description variable which includes the names of every horror movie
 var movieDescriptionList = "";
 var movieLinkList = "";
-var statusMessage;
 
 // Can not be above 49, because the website only has 50 movies, and it will cause the page to infinitely scroll
 const MAX_MOVIES = 10;
@@ -49,7 +48,7 @@ app.get("/getmovie/*", function(req, res){
 	url = req.headers.host + '/' + req.url;
 	parseGenres(res, url);    
 
-	    movieDescriptionList = "";
+	   movieDescriptionList = "";
     // movieLinkList = "";  // Remove to make the list continuously grow
     // This works because even if there are duplicates, when added to qbt they are combined \
     // It is put here, so the only time that the moveLinkList is refreshed is when the user reclicks the generate button
@@ -97,16 +96,7 @@ function getMovies(res, genres)
 		for (var i = 0; i < listSize; ++i)
 		{
 			var movieName = scrapeMovie($, moviesList[i], genres);
-			if (i +1 == moviesList.length)
-			{
-				// Adds the extra parameter to end if last movie
-				// Needs to be done in the async function because otherwise it would run before the async function finishes
-				await torrentMovie(movieName, res);
-			}
-			else
-			{
-				torrentMovie(movieName, res);
-			}
+			await torrentMovie(movieName, res);
 			
 		}	
 	})
