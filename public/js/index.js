@@ -43,7 +43,7 @@ function setAllIndeterminate(checkboxes)
 {
 	for (var i = 0; i < genreCheckboxes.length; ++i)
 	{
-		checkboxes[i].ondblclick = setIndeterminate;
+		checkboxes[i].onauxclick = setIndeterminate;  // Auxclick is RMB or middle click
 		checkboxes[i].indeterminate = true;
 		// some reason it just sets it at start, 
 		/*TODO*/

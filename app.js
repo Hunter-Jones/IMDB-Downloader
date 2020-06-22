@@ -96,7 +96,12 @@ function getMovies(res, genres)
 		for (var i = 0; i < listSize; ++i)
 		{
 			var movieName = scrapeMovie($, moviesList[i], genres);
-			await torrentMovie(movieName, res);
+
+			// Makes sure movieName doesn't equal false (movie was excluded)
+			if (movieName != undefined)
+			{
+				await torrentMovie(movieName, res);
+			}
 			
 		}	
 	})
@@ -124,9 +129,8 @@ function scrapeMovie($, movie, unparsedGenres)
 	if(!isExcluded(unparsedGenres, genre))
 	{
 		descriptionList += description + "\n";
-	}
-
-	return name;
+		return name;
+	}	
 }
 
 // Pre: Requires unparsedExludedGenres, a list of all the genres that should be excluded 
@@ -141,7 +145,6 @@ function isExcluded(unparsedExcludedGenres, genre)
 	excludedGenres = excludedGenres.substring(8);
 	var excludedGenresList = excludedGenres.split(",");
 	
-
 	for (var i = 0; i < excludedGenresList.length - 1; ++i)
 	{
 		if (genre.includes(excludedGenresList[i]))
