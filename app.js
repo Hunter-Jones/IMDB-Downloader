@@ -120,33 +120,37 @@ function scrapeMovie($, movie, unparsedGenres)
 	const genre = $(movie).find(".lister-item-content > .text-muted > .genre").text();
 	const score = $(movie).find(".lister-item-content > .ratings-bar > .inline-block strong").text();
 	var description = "The movie " + name + " had a score of " + score;
-	
-	// Used to see the movie name VIA console
-	// console.log(name);
 
-	var excludedGenres = unparsedGenres.substring(unparsedGenres.search("exclude="));
-	excludedGenres = excludedGenres.substring(8);
-	var excludedGenresList = excludedGenres.split(",");
-	// Checks if genres includes excluded genre
-	
-	// The excluded genres list always has at least element (even if empty)
-	// When empty the list only consists of 
-	if (excludedGenresList[0] != " ")
+	if(!isExcluded(unparsedGenres, genre))
 	{
 		descriptionList += description + "\n";
 	}
-	else 
-	{
-		for (var i = 0; i < excludedGenresList.length; ++i)
-		{
-			if (!genre.includes(excludedGenresList[i]))
-			{
-				descriptionList += description + "\n";
-				// Only shows non-excluded genres
-			}
-		} 
-	}
+
 	return name;
+}
+
+// Pre: Requires unparsedExludedGenres, a list of all the genres that should be excluded 
+// and genre, the 3 genres the movie is listed under
+// Post: parses the unparsedExcludedGenres, then checks if they are included in the movies genres
+// If none of the genres are included it returns true, saying that the movie is excluded
+// Otherwise it returns false, so the movie can be added
+function isExcluded(unparsedExcludedGenres, genre)
+{
+	// Parses the genres list
+	var excludedGenres = unparsedExcludedGenres.substring(unparsedExcludedGenres.search("exclude="));
+	excludedGenres = excludedGenres.substring(8);
+	var excludedGenresList = excludedGenres.split(",");
+	
+
+	for (var i = 0; i < excludedGenresList.length - 1; ++i)
+	{
+		if (genre.includes(excludedGenresList[i]))
+		{
+			return true;
+			// Only shows non-excluded genres
+		}
+	} 
+	return false;
 }
 
 // Pre: Requires the name for a movie
@@ -158,22 +162,22 @@ async function torrentMovie(name, res)
 	const movieLink = await TorrentSearchApi.search(name, 'Movies', 1);
 	// console.log(movieLink[0].link);
 
-	// try
-	// {
-		console.log(movieLink)
-		if (movieLink[0] != undefined) 
-		{
-			movieLinkList += name +  ": " + movieLink[0].desc;
-			movieLinkList += "\n";
-		}
-		else
-		{
-			movieLinkList += name + " wasn't found\n";
-		}
-	// }
-	// catch(error)
-	// {
-	// 	console.log("Error adding " + name);
-	// }
+	try
+	{
+			// console.log(movieLink)
+			if (movieLink[0] != undefined) 
+			{
+				movieLinkList += name +  ": " + movieLink[0].desc;
+				movieLinkList += "\n";
+			}
+			else
+			{
+				movieLinkList += name + " wasn't found\n";
+			}
+	}
+	catch(error)
+	{
+		console.log("Error adding " + name);
+	}
 	
 }
