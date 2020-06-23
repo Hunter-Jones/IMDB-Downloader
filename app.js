@@ -28,9 +28,7 @@ TorrentSearchApi.disableProvider('Torrent9');
 // var url = "https://www.imdb.com/search/title/?genres=" + genre + "&sort=user_rating,desc&title_type=feature&num_votes=25000,&pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=5aab685f-35eb-40f3-95f7-c53f09d542c3&pf_rd_r=HH90Q1ZC6DWPQX6ZJD8F&pf_rd_s=right-6&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_gnr_1";
 // IMDB list of top horror movies, sorted by number of votes, between 2000 and 2020
 
-// Variable for all of the movies
-
-// Description variable which includes the names of every horror movie
+// Description variable which includes the names of every horror movie and the link
 var movieDescriptionList = "";
 var movieLinkList = "";
 
@@ -72,13 +70,15 @@ function parseGenres(res, url)
 		getMovies(res, url);
 	}
 }
-// Pre: requires request response and the variable genres which is a string with all of the IMDB movie genres included/excluded
+// Pre: requires request and the variable genres which is a string with all of the IMDB movie genres included/excluded 
 // The format should be include= + includedGenres + &exclude= + excludedGenres
 // ex include=comedy,horror&exclude=family,action
 // In this example, it will show only comedy horror movies that do not include the genres family or action
-//Post: Takes the genres list and adds it to the url, then webscrapes the url for the top 50 highest rated movies which include whats in genres variable, are feature films, and recieved 25k reviews
-// It will then run the scrapeMovie and getTorrent functions for each movie 
-// Finally, it redirects the webpage back to the default URL, which has the descriptionList variable updated to be passed
+// Post: Takes the genres list and adds it to the url, then webscrapes the url for the top 50 highest rated movies 
+// which include whats in genres variable, are feature films, and recieved 25k reviews
+// It will then run the getName and getTorrent functions for each movie 
+// Finally, it redirects the webpage back to the default URL, which has the description list and link list global
+// variable updated to be passed to the webpage
 function getMovies(res, genres)
 {
 	var url = "https://www.imdb.com/search/title/?genres=" + genres + "&sort=user_rating,desc&title_type=feature&num_votes=25000,&pf_rd_m=A2FGELUUNOQJNL&pf_rd_p=5aab685f-35eb-40f3-95f7-c53f09d542c3&pf_rd_r=HH90Q1ZC6DWPQX6ZJD8F&pf_rd_s=right-6&pf_rd_t=15506&pf_rd_i=top&ref_=chttp_gnr_1";
@@ -95,18 +95,18 @@ function getMovies(res, genres)
 
 		for (var i = 0; i < listSize; ++i)
 		{
-			var movieName = scrapeMovie($, moviesList[i], genres);
+			var movieName = getName($, moviesList[i], genres);
 
 			// Makes sure movieName doesn't equal false (movie was excluded)
 			if (movieName != undefined)
 			{
-				await torrentMovie(movieName, res);
+				movieDescriptionList += movieName + "\n";
+				movieLinkList += await torrentMovie(movieName, res);
 			}
 			
 		}	
 	})
 	.then(function(){
-		movieDescriptionList = descriptionList;
 		res.redirect("/");
 		// Promise chain used with res.redirect to fix error where rederict happens before movieDescriptionList 
 	})
@@ -117,30 +117,33 @@ function getMovies(res, genres)
 // It also requires a movie from IMDB's website to webscrape and the list of genres from the URL, which need to be parsed
 // For each movie it gets the name score and genre, then adds them to a description
 // It then checks each movie to make sure it doesn't include an excluded genre 
-//(The webscraper only gets access to the top 3 genres of a movie, so it isn't perfect, but IMDB doesn't include its own exclusion in advanced search and the webpage only shows the first 3 genres, so there is no other solution)
-// At the end, it adds each non-exclude movie's genre, name, and score to the descriptionList variable and returns it 
-function scrapeMovie($, movie, unparsedGenres)
+//(The webscraper only gets access to the top 3 genres of a movie, so it isn't perfect, but IMDB doesn't 
+// include its own exclusion in advanced search and the webpage only shows the first 3 genres, so there is no other solution)
+// At the end, it returns just the movies name assuming it wasn't excluded
+// If the movie was excluded it returns nothing (undefined)
+// NOTE: If a movie is excluded, it will produce less than MAX_MOVIES to prevent the program for taking too much time
+function getName($, movie, unparsedGenres)
 {
 	const name = $(movie).find(".lister-item-content > .lister-item-header > a").text();
 	const genre = $(movie).find(".lister-item-content > .text-muted > .genre").text();
-	const score = $(movie).find(".lister-item-content > .ratings-bar > .inline-block strong").text();
-	var description = "The movie " + name + " had a score of " + score;
+	// const score = $(movie).find(".lister-item-content > .ratings-bar > .inline-block strong").text();
+	// var description = "The movie " + name + " had a score of " + score;
 
 	if(!isExcluded(unparsedGenres, genre))
 	{
-		descriptionList += description + "\n";
 		return name;
 	}	
 }
 
 // Pre: Requires unparsedExludedGenres, a list of all the genres that should be excluded 
 // and genre, the 3 genres the movie is listed under
+// The format for unparsed genres should be like include=Music,Mystery,&exclude=History,Horror,
 // Post: parses the unparsedExcludedGenres, then checks if they are included in the movies genres
 // If none of the genres are included it returns true, saying that the movie is excluded
 // Otherwise it returns false, so the movie can be added
 function isExcluded(unparsedExcludedGenres, genre)
 {
-	// Parses the genres list
+	// Parses the genres list to an array of genres which should be excluded
 	var excludedGenres = unparsedExcludedGenres.substring(unparsedExcludedGenres.search("exclude="));
 	excludedGenres = excludedGenres.substring(8);
 	var excludedGenresList = excludedGenres.split(",");
@@ -156,31 +159,27 @@ function isExcluded(unparsedExcludedGenres, genre)
 	return false;
 }
 
-// Pre: Requires the name for a movie
+// Pre: Requires the name for a movie and response
 // Post asynchronously goes and finds the name for a torrented movie and returns the link if it exists
 // NOTE: This will take a LONG time (multiple minutes for 50) 
 async function torrentMovie(name, res)
 {
-	// console.log("Torrenting " + name);
 	const movieLink = await TorrentSearchApi.search(name, 'Movies', 1);
-	// console.log(movieLink[0].link);
 
 	try
 	{
-			// console.log(movieLink)
 			if (movieLink[0] != undefined) 
 			{
-				movieLinkList += name +  ": " + movieLink[0].desc;
-				movieLinkList += "\n";
+				return name +  ": " + movieLink[0].desc + "\n\n";
 			}
 			else
 			{
-				movieLinkList += name + " wasn't found\n";
+				return name + " wasn't found\n";
 			}
 	}
 	catch(error)
 	{
-		console.log("Error adding " + name);
+		 return "Error adding " + name;
 	}
 	
 }
